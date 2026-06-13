@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       :::      ::::::::    */
-/*   parser.c                                          :+:      :+:    :+:    */
-/*                                                   +:+ +:+         +:+      */
-/*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
-/*                                               +#+#+#+#+#+   +#+            */
-/*   Created: 2026/06/13 14:59:19 by username         #+#    #+#              */
-/*   Updated: 2026/06/13 18:21:44 by username        ###   ########.fr        */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hamezoua <amouzwarh+1@gmail.com>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/06/13 14:59:19 by username          #+#    #+#             */
+/*   Updated: 2026/06/13 20:29:13 by hamezoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,29 +16,22 @@ int	ft_atoi(char *str)
 {
 	int		i;
 	long	result;
-	long	sign;
 
 	i = 0;
 	result = 0;
-	sign = 1;
-	while ((str[i] && str[i] == ' ') || (str[i] >= 9 && str[i] <= 13))
-		i++;
-	if (str[i] == '-' || str[i] == '+')
-	{
-		if (str[i] == '-')
-			sign *= -1;
-		i++;
-	}
+	if (!(str[i] >= '0' && str[i] <= '9'))
+		return (-1);
+	
 	while (str[i] >= '0' && str[i] <= '9')
 	{
 		result = result * 10 + str[i] - '0';
-		if (((result * sign) > 2147483647) || ((result * sign) < -2147483648))
+		if (result > 2147483647)
 			return (-1);
 		i++;
 	}
-	if (!(str[i] >= '0' || str[i] <= '9') || (result * sign) < 0)
-		return (-1);
-	return (result * sign);
+	if (!str[i])
+		return (result);
+	return (-1);
 }
 
 int	check_args(int argc, char **argv)
