@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       :::      ::::::::    */
-/*   main.c                                            :+:      :+:    :+:    */
-/*                                                   +:+ +:+         +:+      */
-/*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
-/*                                               +#+#+#+#+#+   +#+            */
-/*   Created: 2026/06/13 15:00:32 by username         #+#    #+#              */
-/*   Updated: 2026/06/13 20:31:30 by username        ###   ########.fr        */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hamezoua <amouzwarh+1@gmail.com>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/06/13 15:00:32 by username          #+#    #+#             */
+/*   Updated: 2026/06/15 18:30:58 by hamezoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 int	main(int argc, char **argv)
 {
 	if (check_args(argc, argv) == -1)
-	{
-		printf("please check your argument");
 		return (0);
-	}
+	// t_config	*s_config;
+	// s_config = ft_init(argv);
+	// // printf("%d",s_config->scheduler);
 }
