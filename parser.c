@@ -6,7 +6,7 @@
 /*   By: hamezoua <amouzwarh+1@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 14:59:19 by username          #+#    #+#             */
-/*   Updated: 2026/06/15 18:45:06 by hamezoua         ###   ########.fr       */
+/*   Updated: 2026/06/15 18:48:31 by hamezoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ int	check_args(int argc, char **argv)
 {
 	if (argc != 9)
     {
-        printf("[ERROR]: your argument count is %d please check your argument must be == 8", argc);
-		return (-1);
+    printf("[ERROR]: your argument count is %d please check your argument must be == 8", argc);
+	return (-1);
     }
 	int	i = 1;
 
