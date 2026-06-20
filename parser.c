@@ -6,7 +6,7 @@
 /*   By: hamezoua <amouzwarh+1@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 14:59:19 by username          #+#    #+#             */
-/*   Updated: 2026/06/15 18:48:31 by hamezoua         ###   ########.fr       */
+/*   Updated: 2026/06/20 12:30:05 by hamezoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,12 @@ int	check_args(int argc, char **argv)
 		{
             if ((i == 1 || i == 2 || i == 6) && ft_atoi(argv[i]) <= 0)
 			{
-                printf("[ERROR]: please check argument number of %d this argument %s it must be > 0 and < [INT_NAX]\n", i, argv[i]);
+                printf("[ERROR]: please check argument number of %d this value %s it must be > 0 and < [INT_NAX]\n", i, argv[i]);
 				return (-1);
 			}
             else if (ft_atoi(argv[i]) == -1)
             {
-                printf("[ERROR]: please check this argument number of %d this argument %s it must be >= 0 and <= [INT_NAX]\n", i, argv[i]);
+                printf("[ERROR]: please check this argument number of %d this value %s it must be >= 0 and <= [INT_NAX]\n", i, argv[i]);
                 return (-1);
             }
 		}

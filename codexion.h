@@ -6,7 +6,7 @@
 /*   By: hamezoua <amouzwarh+1@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 15:35:05 by username          #+#    #+#             */
-/*   Updated: 2026/06/16 18:04:15 by hamezoua         ###   ########.fr       */
+/*   Updated: 2026/06/20 12:18:07 by hamezoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <sys/time.h>
+#include <unistd.h>
 
 typedef struct s_config
 {
@@ -65,5 +66,9 @@ typedef struct s_simulation
 int	check_args(int argc, char **argv);
 int	ft_atoi(char *str);
 t_config *ft_init(char **argv);
+long get_current_time();
+void ft_usleep(long time_in_ms);
+t_simulation *init_simulation(t_config *config);
+
 
 #endif
