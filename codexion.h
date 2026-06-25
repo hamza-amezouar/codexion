@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       :::      ::::::::    */
-/*   codexion.h                                        :+:      :+:    :+:    */
-/*                                                   +:+ +:+         +:+      */
-/*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
-/*                                               +#+#+#+#+#+   +#+            */
-/*   Created: 2026/06/13 15:35:05 by username         #+#    #+#              */
-/*   Updated: 2026/06/22 13:42:42 by username        ###   ########.fr        */
+/*                                                        :::      ::::::::   */
+/*   codexion.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hamezoua <amouzwarh+1@gmail.com>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/06/13 15:35:05 by username          #+#    #+#             */
+/*   Updated: 2026/06/25 18:05:56 by hamezoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct s_config
 	int	time_to_burnout;
 	int	time_to_compile;
 	int	time_to_debug;
+	int			simulation_dead;
 	int	time_to_refactor;
 	int	number_of_compiles_required;
 	int	dongle_cooldown;
@@ -38,14 +39,17 @@ typedef struct s_dongle
 	pthread_mutex_t	mutex;
 	pthread_cond_t	cond;
 	long			last_released_time;
+	t_heap_node *heap;
+	int heap_size;
 
 }	t_dongle;
 
 typedef struct s_coder
 {
 	int			id_of_coder;
-	long		last_compile_start;
 	int			compile_count;
+	long		last_compile_start;
+	t_config	*config;
 	t_dongle	*left_dongle;
 	t_dongle	*right_dongle;
 }	t_coder;
@@ -56,17 +60,27 @@ typedef struct s_simulation
 	t_coder			*coders;
 	t_dongle		*dongles;
 	long			start_time;
-	int				simulation_end;
 	pthread_mutex_t	stop_mutex;
 	pthread_mutex_t	print_mutex;
 
 }	t_simulation;
 
+typedef struct s_heap_node
+{
+	int		coder_id;
+	long    priority;
+} t_heap_node;
+
+
 int				check_args(int argc, char **argv);
 int				ft_atoi(char *str);
 t_config		*ft_init(char **argv);
 long			get_current_time(void);
-void			ft_usleep(long time_in_ms);
+void			ft_usleep(long time_in_ms, t);
 t_simulation	*init_simulation(t_config *config);
+ft_usleep(long time_in_ms, t_coder *coder);
+void heap_insert(t_dongle *dongle, int coder_id, long priority);
+void    heap_extract_min(t_dongle *dongle)
+
 
 #endif

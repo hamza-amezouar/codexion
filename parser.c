@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       :::      ::::::::    */
-/*   parser.c                                          :+:      :+:    :+:    */
-/*                                                   +:+ +:+         +:+      */
-/*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
-/*                                               +#+#+#+#+#+   +#+            */
-/*   Created: 2026/06/13 14:59:19 by username         #+#    #+#              */
-/*   Updated: 2026/06/22 14:28:09 by username        ###   ########.fr        */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hamezoua <amouzwarh+1@gmail.com>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/06/13 14:59:19 by username          #+#    #+#             */
+/*   Updated: 2026/06/24 15:19:31 by hamezoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ t_config	*ft_init(char **argv)
 	init->time_to_refactor = ft_atoi(argv[5]);
 	init->number_of_compiles_required = ft_atoi(argv[6]);
 	init->dongle_cooldown = ft_atoi(argv[7]);
+	init->simulation_dead = 0;
 	if (strcmp("fifo", argv[8]) == 0)
 		init->scheduler = 1;
 	else
