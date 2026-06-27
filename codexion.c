@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   codexion.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hamezoua <amouzwarh+1@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 15:00:32 by username          #+#    #+#             */
-/*   Updated: 2026/06/27 17:19:53 by hamezoua         ###   ########.fr       */
+/*   Updated: 2026/06/27 19:03:18 by hamezoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void    start_simulation(t_simulation *sim)
 		i++;
 	}
 	pthread_join(monitor_id, NULL);
+	free(thread_ids);
 }
 int	main(int argc, char **argv)
 {
@@ -51,5 +52,10 @@ int	main(int argc, char **argv)
 	}
 	sim->config->start_time = get_current_time();
 	start_simulation(sim);
+	free(sim->coders);
+	free(sim->dongles->heap);
+	free(sim->dongles);
+	free(sim->config);
+	free(sim);
 	return (0);
 }

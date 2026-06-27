@@ -4,7 +4,7 @@ CC          = cc
 CFLAGS      = -Wall -Wextra -Werror
 RM          = rm -f
 
-F_SRC = main.c parser.c  utils.c init.c simulation.c monitor.c heap.c 
+F_SRC = codexion.c parser.c  utils.c init.c simulation.c monitor.c heap.c 
 
 
 OBJS        = $(F_SRC:.c=.o)
