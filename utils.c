@@ -6,7 +6,7 @@
 /*   By: hamezoua <amouzwarh+1@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/16 17:59:20 by username          #+#    #+#             */
-/*   Updated: 2026/06/24 15:19:56 by hamezoua         ###   ########.fr       */
+/*   Updated: 2026/06/27 18:13:49 by hamezoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,10 @@
 long	get_current_time(void)
 {
 	struct timeval	time;
-	long			sec;
-	long			usec;
 	long			millisecond;
 
 	gettimeofday(&time, NULL);
-	sec = time.tv_sec * 1000;
-	usec = time.tv_usec;
-	printf("usc  %ld", usec);
-	millisecond = sec + usec;
+	millisecond = (time.tv_sec * 1000) + (time.tv_usec / 1000);;
 	return (millisecond);
 }
 
@@ -36,6 +31,6 @@ void	ft_usleep(long time_in_ms, t_coder *coder)
 	{
 		if (coder->config->simulation_dead == 1)
 			break;
-		usleep(1000);
+		usleep(500);
 	}
 }

@@ -1,17 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       :::      ::::::::    */
-/*   main.c                                            :+:      :+:    :+:    */
-/*                                                   +:+ +:+         +:+      */
-/*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
-/*                                               +#+#+#+#+#+   +#+            */
-/*   Created: 2026/06/13 15:00:32 by username         #+#    #+#              */
-/*   Updated: 2026/06/22 13:44:55 by username        ###   ########.fr        */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hamezoua <amouzwarh+1@gmail.com>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/06/13 15:00:32 by username          #+#    #+#             */
+/*   Updated: 2026/06/27 17:19:53 by hamezoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
+void    start_simulation(t_simulation *sim)
+{
+	pthread_t *thread_ids;
+	pthread_t monitor_id;
+	int i;
 
+	i = 0;
+	thread_ids = malloc(sizeof(pthread_t) * sim->config->number_of_coders);
+	if (!thread_ids)
+		return;
+	while (i < sim->config->number_of_coders)
+	{
+		pthread_create(&thread_ids[i], NULL, coder_routine, &sim->coders[i]);
+		i++;
+	}
+	pthread_create(&monitor_id, NULL, monitor_routine, sim);
+	i = 0;
+	while (i < sim->config->number_of_coders)
+	{
+		pthread_join(thread_ids[i], NULL);
+		i++;
+	}
+	pthread_join(monitor_id, NULL);
+}
 int	main(int argc, char **argv)
 {
 	t_config		*config;
@@ -26,5 +49,7 @@ int	main(int argc, char **argv)
 		printf("[ERROR]: field to allocation config");
 		return (1);
 	}
+	sim->config->start_time = get_current_time();
+	start_simulation(sim);
 	return (0);
 }

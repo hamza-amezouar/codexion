@@ -6,7 +6,7 @@
 /*   By: hamezoua <amouzwarh+1@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 15:35:05 by username          #+#    #+#             */
-/*   Updated: 2026/06/25 18:05:56 by hamezoua         ###   ########.fr       */
+/*   Updated: 2026/06/27 17:18:50 by hamezoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,12 @@
 # include <sys/time.h>
 # include <unistd.h>
 
+typedef struct s_heap_node
+{
+	int		coder_id;
+	long    priority;
+} t_heap_node;
+
 typedef struct s_config
 {
 	int	number_of_coders;
@@ -31,6 +37,9 @@ typedef struct s_config
 	int	number_of_compiles_required;
 	int	dongle_cooldown;
 	int	scheduler;
+	long start_time;
+	pthread_mutex_t mutex_dead;
+	pthread_mutex_t	print_mutex;
 }	t_config;
 
 typedef struct s_dongle
@@ -49,6 +58,7 @@ typedef struct s_coder
 	int			id_of_coder;
 	int			compile_count;
 	long		last_compile_start;
+	pthread_mutex_t mutex_time;
 	t_config	*config;
 	t_dongle	*left_dongle;
 	t_dongle	*right_dongle;
@@ -59,28 +69,22 @@ typedef struct s_simulation
 	t_config		*config;
 	t_coder			*coders;
 	t_dongle		*dongles;
-	long			start_time;
-	pthread_mutex_t	stop_mutex;
-	pthread_mutex_t	print_mutex;
-
 }	t_simulation;
 
-typedef struct s_heap_node
-{
-	int		coder_id;
-	long    priority;
-} t_heap_node;
 
 
 int				check_args(int argc, char **argv);
 int				ft_atoi(char *str);
 t_config		*ft_init(char **argv);
 long			get_current_time(void);
-void			ft_usleep(long time_in_ms, t);
 t_simulation	*init_simulation(t_config *config);
-ft_usleep(long time_in_ms, t_coder *coder);
+void ft_usleep(long time_in_ms, t_coder *coder);
 void heap_insert(t_dongle *dongle, int coder_id, long priority);
-void    heap_extract_min(t_dongle *dongle)
-
+void    heap_extract_min(t_dongle *dongle);
+int is_dead(t_config *config);
+void *coder_routine(void *arg);
+void    drop_dongles(t_coder *coder);
+void    take_dongles(t_coder *coder, t_config *config);
+void    *monitor_routine(void *arg);
 
 #endif
