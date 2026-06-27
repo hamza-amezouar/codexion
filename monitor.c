@@ -6,7 +6,7 @@
 /*   By: hamezoua <amouzwarh+1@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/24 16:15:20 by hamezoua          #+#    #+#             */
-/*   Updated: 2026/06/27 17:21:43 by hamezoua         ###   ########.fr       */
+/*   Updated: 2026/06/27 18:53:09 by hamezoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,12 @@ void    *monitor_routine(void *arg)
             }
             pthread_mutex_unlock(&sim->coders[i].mutex_time);
             i++;
+        }
+        if (sim->config->number_of_compiles_required < sim->coders->compile_count)
+        {
+            pthread_mutex_lock(&sim->config->mutex_dead);
+            sim->config->simulation_dead = 1;
+            pthread_mutex_unlock(&sim->config->mutex_dead);
         }
         usleep(1000);
     }
