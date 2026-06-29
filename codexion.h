@@ -6,7 +6,7 @@
 /*   By: hamezoua <amouzwarh+1@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 15:35:05 by username          #+#    #+#             */
-/*   Updated: 2026/06/27 17:18:50 by hamezoua         ###   ########.fr       */
+/*   Updated: 2026/06/29 10:50:13 by hamezoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <pthread.h>
 # include <sys/time.h>
 # include <unistd.h>
+# include <stdbool.h>
 
 typedef struct s_heap_node
 {
@@ -84,7 +85,7 @@ void    heap_extract_min(t_dongle *dongle);
 int is_dead(t_config *config);
 void *coder_routine(void *arg);
 void    drop_dongles(t_coder *coder);
-void    take_dongles(t_coder *coder, t_config *config);
+void take_dongles(t_coder *coder, t_config *config);
 void    *monitor_routine(void *arg);
 
 #endif

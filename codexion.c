@@ -6,21 +6,22 @@
 /*   By: hamezoua <amouzwarh+1@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 15:00:32 by username          #+#    #+#             */
-/*   Updated: 2026/06/27 19:03:18 by hamezoua         ###   ########.fr       */
+/*   Updated: 2026/06/28 14:51:59 by hamezoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
-void    start_simulation(t_simulation *sim)
+
+void	start_simulation(t_simulation *sim)
 {
-	pthread_t *thread_ids;
-	pthread_t monitor_id;
-	int i;
+	pthread_t	*thread_ids;
+	pthread_t	monitor_id;
+	int			i;
 
 	i = 0;
 	thread_ids = malloc(sizeof(pthread_t) * sim->config->number_of_coders);
 	if (!thread_ids)
-		return;
+		return ;
 	while (i < sim->config->number_of_coders)
 	{
 		pthread_create(&thread_ids[i], NULL, coder_routine, &sim->coders[i]);
@@ -36,6 +37,7 @@ void    start_simulation(t_simulation *sim)
 	pthread_join(monitor_id, NULL);
 	free(thread_ids);
 }
+
 int	main(int argc, char **argv)
 {
 	t_config		*config;
