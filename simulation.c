@@ -6,7 +6,7 @@
 /*   By: hamezoua <amouzwarh+1@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/22 14:17:13 by username          #+#    #+#             */
-/*   Updated: 2026/06/29 10:55:16 by hamezoua         ###   ########.fr       */
+/*   Updated: 2026/06/29 14:50:05 by hamezoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@ void *coder_routine(void *arg)
             
         }
         take_dongles(coder, coder->config);
+        pthread_mutex_lock(&coder->mutex_time);
+        coder->last_compile_start = get_current_time();
+        pthread_mutex_unlock(&coder->mutex_time);
         pthread_mutex_lock(&coder->config->print_mutex);
         if (is_dead(coder->config) == 0)
             printf("%ld %d has taken a dongle\n", get_current_time() - coder->config->start_time, coder->id_of_coder);
@@ -43,12 +46,11 @@ void *coder_routine(void *arg)
             drop_dongles(coder);
             break;
         }
-        pthread_mutex_lock(&coder->mutex_time);
-        coder->last_compile_start = get_current_time();
-        pthread_mutex_unlock(&coder->mutex_time);
         
         ft_usleep(coder->config->time_to_compile, coder);
+        pthread_mutex_lock(&coder->mutex_time);
         coder->compile_count++;
+        pthread_mutex_unlock(&coder->mutex_time);
         drop_dongles(coder);
         
         pthread_mutex_lock(&coder->config->print_mutex);

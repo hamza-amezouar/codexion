@@ -6,7 +6,7 @@
 /*   By: hamezoua <amouzwarh+1@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 15:00:32 by username          #+#    #+#             */
-/*   Updated: 2026/06/28 14:51:59 by hamezoua         ###   ########.fr       */
+/*   Updated: 2026/06/29 15:11:50 by hamezoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,21 @@ void	start_simulation(t_simulation *sim)
 	free(thread_ids);
 }
 
+void destroy_mutex(t_simulation *sim)
+{
+	int i;
+	i = 0;
+	while (i < sim->config->number_of_coders)
+	{
+		pthread_mutex_destroy(&sim->dongles[i].mutex);
+		pthread_cond_destroy(&sim->dongles[i].cond);
+		pthread_mutex_destroy(&sim->coders[i].mutex_time);
+		free(sim->dongles[i].heap);
+		i++;
+	}
+	pthread_mutex_destroy(&sim->config->mutex_dead);
+	pthread_mutex_destroy(&sim->config->print_mutex);
+}
 int	main(int argc, char **argv)
 {
 	t_config		*config;
@@ -54,8 +69,8 @@ int	main(int argc, char **argv)
 	}
 	sim->config->start_time = get_current_time();
 	start_simulation(sim);
+	destroy_mutex(sim);
 	free(sim->coders);
-	free(sim->dongles->heap);
 	free(sim->dongles);
 	free(sim->config);
 	free(sim);
