@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: hamezoua <amouzwarh+1@gmail.com>           +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/16 17:59:20 by username          #+#    #+#             */
-/*   Updated: 2026/06/29 15:06:40 by hamezoua         ###   ########.fr       */
+/*                                                       :::      ::::::::    */
+/*   utils.c                                           :+:      :+:    :+:    */
+/*                                                   +:+ +:+         +:+      */
+/*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
+/*                                               +#+#+#+#+#+   +#+            */
+/*   Created: 2026/06/16 17:59:20 by username         #+#    #+#              */
+/*   Updated: 2026/07/01 16:40:40 by username        ###   ########.fr        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ long	get_current_time(void)
 	long			millisecond;
 
 	gettimeofday(&time, NULL);
-	millisecond = (time.tv_sec * 1000) + (time.tv_usec / 1000);;
+	millisecond = (time.tv_sec * 1000) + (time.tv_usec / 1000);
 	return (millisecond);
 }
 
@@ -30,7 +30,7 @@ void	ft_usleep(long time_in_ms, t_coder *coder)
 	while (target_time > get_current_time())
 	{
 		if (is_dead(coder->config) == 1)
-			break;
+			break ;
 		usleep(500);
 	}
 }

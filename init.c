@@ -6,7 +6,7 @@
 /*   By: hamezoua <amouzwarh+1@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/20 10:20:18 by username          #+#    #+#             */
-/*   Updated: 2026/06/29 10:07:29 by hamezoua         ###   ########.fr       */
+/*   Updated: 2026/07/01 14:48:24 by hamezoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	init_dongles(t_simulation *sim)
 {
 	int	i;
+
 	i = 0;
 	sim->dongles = malloc(sizeof(t_dongle) * sim->config->number_of_coders);
 	if (!sim->dongles)
@@ -23,8 +24,8 @@ int	init_dongles(t_simulation *sim)
 	{
 		sim->dongles[i].id_of_dongle = i + 1;
 		sim->dongles[i].last_released_time = 0;
-		sim->dongles[i].heap = malloc(sizeof(t_heap_node) \
-		* sim->config->number_of_coders);
+		sim->dongles[i].heap = malloc(sizeof(t_heap_node)
+				* sim->config->number_of_coders);
 		sim->dongles[i].heap_size = 0;
 		pthread_mutex_init(&sim->dongles[i].mutex, NULL);
 		pthread_cond_init(&sim->dongles[i].cond, NULL);
@@ -80,11 +81,12 @@ t_simulation	*init_simulation(t_config *config)
 	return (sim);
 }
 
-int is_dead(t_config *config)
+int	is_dead(t_config *config)
 {
-    int is__dead;
-    pthread_mutex_lock(&config->mutex_dead);
-    is__dead = config->simulation_dead;
-    pthread_mutex_unlock(&config->mutex_dead);
-    return (is__dead);
+	int	is__dead;
+
+	pthread_mutex_lock(&config->mutex_dead);
+	is__dead = config->simulation_dead;
+	pthread_mutex_unlock(&config->mutex_dead);
+	return (is__dead);
 }

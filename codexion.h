@@ -6,11 +6,9 @@
 /*   By: hamezoua <amouzwarh+1@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/29 15:20:55 by hamezoua          #+#    #+#             */
-/*   Updated: 2026/06/29 15:21:09 by hamezoua         ###   ########.fr       */
+/*   Updated: 2026/07/01 14:46:45 by hamezoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #ifndef CODEXION_H
 # define CODEXION_H

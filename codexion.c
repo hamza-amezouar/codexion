@@ -6,7 +6,7 @@
 /*   By: hamezoua <amouzwarh+1@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 15:00:32 by username          #+#    #+#             */
-/*   Updated: 2026/06/29 15:11:50 by hamezoua         ###   ########.fr       */
+/*   Updated: 2026/07/01 14:46:12 by hamezoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,10 @@ void	start_simulation(t_simulation *sim)
 	free(thread_ids);
 }
 
-void destroy_mutex(t_simulation *sim)
+void	destroy_mutex(t_simulation *sim)
 {
-	int i;
+	int	i;
+
 	i = 0;
 	while (i < sim->config->number_of_coders)
 	{
@@ -53,6 +54,7 @@ void destroy_mutex(t_simulation *sim)
 	pthread_mutex_destroy(&sim->config->mutex_dead);
 	pthread_mutex_destroy(&sim->config->print_mutex);
 }
+
 int	main(int argc, char **argv)
 {
 	t_config		*config;

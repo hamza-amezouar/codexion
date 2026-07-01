@@ -6,74 +6,73 @@
 /*   By: hamezoua <amouzwarh+1@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/29 10:08:42 by hamezoua          #+#    #+#             */
-/*   Updated: 2026/06/29 10:53:07 by hamezoua         ###   ########.fr       */
+/*   Updated: 2026/07/01 14:47:44 by hamezoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-void    lock_dongles(t_coder *coder)
+void	lock_dongles(t_coder *coder)
 {
-    if (coder->left_dongle->id_of_dongle < coder->right_dongle->id_of_dongle)
-    {
-        
-        pthread_mutex_lock(&coder->left_dongle->mutex);
-        pthread_mutex_lock(&coder->right_dongle->mutex);
-    }
-    else
-    {
-        pthread_mutex_lock(&coder->right_dongle->mutex);
-        pthread_mutex_lock(&coder->left_dongle->mutex);
-    }
+	if (coder->left_dongle->id_of_dongle < coder->right_dongle->id_of_dongle)
+	{
+		pthread_mutex_lock(&coder->left_dongle->mutex);
+		pthread_mutex_lock(&coder->right_dongle->mutex);
+	}
+	else
+	{
+		pthread_mutex_lock(&coder->right_dongle->mutex);
+		pthread_mutex_lock(&coder->left_dongle->mutex);
+	}
 }
 
-void    wait_for_dongles(t_coder *coder, int x)
+void	wait_for_dongles(t_coder *coder, int x)
 {
-    if (x == 1)
-    {
-        pthread_mutex_unlock(&coder->left_dongle->mutex);
-        pthread_cond_wait(&coder->right_dongle->cond, &coder->right_dongle->mutex);
-        pthread_mutex_unlock(&coder->right_dongle->mutex);
-    }
-    else
-    {
-        pthread_mutex_unlock(&coder->right_dongle->mutex);
-        pthread_cond_wait(&coder->left_dongle->cond, &coder->left_dongle->mutex);
-        pthread_mutex_unlock(&coder->left_dongle->mutex);
-    }
-}
-void    take_dongles(t_coder *coder, t_config *config)
-{
-    long priority;
-    
-    if (coder->config->scheduler == 1)
-        priority = get_current_time();
-    else
-        priority = coder->config->time_to_burnout + coder->last_compile_start;
-
-    lock_dongles(coder);
-    heap_insert(coder->left_dongle, coder->id_of_coder, priority);
-    heap_insert(coder->right_dongle, coder->id_of_coder, priority);
-
-    while ((coder->left_dongle->heap[0].coder_id != coder->id_of_coder ||
-        coder->right_dongle->heap[0].coder_id != coder->id_of_coder) && is_dead(config) != 1)
-    {
-        if (coder->left_dongle->heap[0].coder_id != coder->id_of_coder)
-             wait_for_dongles(coder, 0);
-
-        else if (coder->right_dongle->heap[0].coder_id != coder->id_of_coder)
-             wait_for_dongles(coder, 1);
-        
-        lock_dongles(coder);
-    }
+	if (x == 1)
+	{
+		pthread_mutex_unlock(&coder->left_dongle->mutex);
+		pthread_cond_wait(&coder->right_dongle->cond,
+			&coder->right_dongle->mutex);
+		pthread_mutex_unlock(&coder->right_dongle->mutex);
+	}
+	else
+	{
+		pthread_mutex_unlock(&coder->right_dongle->mutex);
+		pthread_cond_wait(&coder->left_dongle->cond,
+			&coder->left_dongle->mutex);
+		pthread_mutex_unlock(&coder->left_dongle->mutex);
+	}
 }
 
-void    drop_dongles(t_coder *coder)
+void	take_dongles(t_coder *coder, t_config *config)
 {
-    heap_extract_min(coder->left_dongle);
-    heap_extract_min(coder->right_dongle);
-    pthread_cond_broadcast(&coder->left_dongle->cond);
-    pthread_cond_broadcast(&coder->right_dongle->cond);
-    pthread_mutex_unlock(&coder->left_dongle->mutex);
-    pthread_mutex_unlock(&coder->right_dongle->mutex);
+	long	priority;
+
+	if (coder->config->scheduler == 1)
+		priority = get_current_time();
+	else
+		priority = coder->config->time_to_burnout + coder->last_compile_start;
+	lock_dongles(coder);
+	heap_insert(coder->left_dongle, coder->id_of_coder, priority);
+	heap_insert(coder->right_dongle, coder->id_of_coder, priority);
+	while ((coder->left_dongle->heap[0].coder_id != coder->id_of_coder
+			|| coder->right_dongle->heap[0].coder_id != coder->id_of_coder)
+		&& is_dead(config) != 1)
+	{
+		if (coder->left_dongle->heap[0].coder_id != coder->id_of_coder)
+			wait_for_dongles(coder, 0);
+		else if (coder->right_dongle->heap[0].coder_id != coder->id_of_coder)
+			wait_for_dongles(coder, 1);
+		lock_dongles(coder);
+	}
+}
+
+void	drop_dongles(t_coder *coder)
+{
+	heap_extract_min(coder->left_dongle);
+	heap_extract_min(coder->right_dongle);
+	pthread_cond_broadcast(&coder->left_dongle->cond);
+	pthread_cond_broadcast(&coder->right_dongle->cond);
+	pthread_mutex_unlock(&coder->left_dongle->mutex);
+	pthread_mutex_unlock(&coder->right_dongle->mutex);
 }
