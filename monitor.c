@@ -6,7 +6,7 @@
 /*   By: hamezoua <amouzwarh+1@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/24 16:15:20 by username          #+#    #+#             */
-/*   Updated: 2026/07/01 16:15:59 by hamezoua         ###   ########.fr       */
+/*   Updated: 2026/07/04 15:48:13 by hamezoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	handle_burnout(t_simulation *sim, int i)
 		- sim->coders->config->start_time, sim->coders[i].id_of_coder);
 	while (j < sim->config->number_of_coders)
 	{
+		pthread_mutex_unlock(&sim->dongles[j].mutex);
 		pthread_cond_broadcast(&sim->dongles[j].cond);
 		j++;
 	}
