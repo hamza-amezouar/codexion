@@ -6,7 +6,7 @@
 /*   By: hamezoua <amouzwarh+1@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/29 10:08:42 by hamezoua          #+#    #+#             */
-/*   Updated: 2026/07/04 16:19:04 by hamezoua         ###   ########.fr       */
+/*   Updated: 2026/07/04 16:34:38 by hamezoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ void	take_dongles(t_coder *coder, t_config *config)
 	while ((coder->left_dongle->heap[0].coder_id != coder->id_of_coder
 			|| coder->right_dongle->heap[0].coder_id != coder->id_of_coder)
 		&& is_dead(config) != 1)
-
 	{
 		if (coder->left_dongle->heap[0].coder_id != coder->id_of_coder)
 			wait_for_dongles(coder, 0);
@@ -66,11 +65,15 @@ void	take_dongles(t_coder *coder, t_config *config)
 			wait_for_dongles(coder, 1);
 		lock_dongles(coder);
 	}
-	
+	if (get_current_time() - coder->left_dongle->last_released_time < coder->config->dongle_cooldown
+		|| get_current_time() - coder->left_dongle->last_released_time < coder->config->dongle_cooldown)
+		ft_usleep(coder->config->dongle_cooldown, coder);
 }
 
 void	drop_dongles(t_coder *coder)
 {
+	coder->left_dongle->last_released_time = get_current_time();
+	coder->right_dongle->last_released_time = get_current_time();
 	heap_extract_min(coder->left_dongle);
 	heap_extract_min(coder->right_dongle);
 	pthread_cond_broadcast(&coder->left_dongle->cond);
