@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   dongles.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: hamezoua <amouzwarh+1@gmail.com>           +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/29 10:08:42 by hamezoua          #+#    #+#             */
-/*   Updated: 2026/07/04 16:34:38 by hamezoua         ###   ########.fr       */
+/*                                                       :::      ::::::::    */
+/*   dongles.c                                         :+:      :+:    :+:    */
+/*                                                   +:+ +:+         +:+      */
+/*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
+/*                                               +#+#+#+#+#+   +#+            */
+/*   Created: 2026/06/29 10:08:42 by username         #+#    #+#              */
+/*   Updated: 2026/07/04 20:27:27 by username        ###   ########.fr        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,24 @@ void	wait_for_dongles(t_coder *coder, int x)
 	}
 }
 
+void	check_cooldown(t_coder *coder)
+{
+	pthread_mutex_lock(&coder->config->print_mutex);
+	if (get_current_time()
+			-coder->left_dongle->last_released_time \
+	< coder->config->dongle_cooldown
+	|| get_current_time()
+	-coder->right_dongle->last_released_time \
+	< coder->config->dongle_cooldown)
+	{
+		pthread_mutex_unlock(&coder->left_dongle->mutex);
+		pthread_mutex_unlock(&coder->right_dongle->mutex);
+		ft_usleep(coder->config->dongle_cooldown, coder);
+		lock_dongles(coder);
+	}
+	pthread_mutex_unlock(&coder->config->print_mutex);
+}
+
 void	take_dongles(t_coder *coder, t_config *config)
 {
 	long	priority;
@@ -56,8 +74,8 @@ void	take_dongles(t_coder *coder, t_config *config)
 	heap_insert(coder->left_dongle, coder->id_of_coder, priority);
 	heap_insert(coder->right_dongle, coder->id_of_coder, priority);
 	while ((coder->left_dongle->heap[0].coder_id != coder->id_of_coder
-			|| coder->right_dongle->heap[0].coder_id != coder->id_of_coder)
-		&& is_dead(config) != 1)
+				|| coder->right_dongle->heap[0].coder_id != coder->id_of_coder)
+	&& is_dead(config) != 1)
 	{
 		if (coder->left_dongle->heap[0].coder_id != coder->id_of_coder)
 			wait_for_dongles(coder, 0);
@@ -65,9 +83,7 @@ void	take_dongles(t_coder *coder, t_config *config)
 			wait_for_dongles(coder, 1);
 		lock_dongles(coder);
 	}
-	if (get_current_time() - coder->left_dongle->last_released_time < coder->config->dongle_cooldown
-		|| get_current_time() - coder->left_dongle->last_released_time < coder->config->dongle_cooldown)
-		ft_usleep(coder->config->dongle_cooldown, coder);
+	check_cooldown(coder);
 }
 
 void	drop_dongles(t_coder *coder)
