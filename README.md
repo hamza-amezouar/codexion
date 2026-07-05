@@ -81,9 +81,9 @@ make
 | `time_to_compile`                          | Duration (ms) required to complete a compilation                     |
 | `time_to_debug`                            | Time (ms) spent debugging                                            |
 | `time_to_refactor`                         | Time (ms) spent refactoring                                          |
-| `number_of_compiles_required` *(optional)* | Number of successful compilations required per coder                 |
-| `dongle_cooldown` *(optional)*             | Cooldown period (ms) after a dongle is released                      |
-| `scheduling_policy` *(optional)*           | Scheduling algorithm (`fifo` or `edf`)                               |
+| `number_of_compiles_required`              | Number of successful compilations required per coder                 |
+| `dongle_cooldown`                          | Cooldown period (ms) after a dongle is released                      |
+| `scheduling_policy`                        | Scheduling algorithm (`fifo` or `edf`)                               |
 
 ### Example
 
