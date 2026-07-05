@@ -1,7 +1,6 @@
-# varaibels
 NAME        = codexion
 CC          = cc
-CFLAGS      = -Wall -Wextra -Werror
+CFLAGS      = -Wall -Wextra -Werror -pthread
 RM          = rm -f
 
 F_SRC = codexion.c parser.c  utils.c init.c simulation.c monitor.c heap.c dongles.c
@@ -25,4 +24,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all bonus clean fclean re
+.PHONY: all clean fclean re
