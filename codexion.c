@@ -6,7 +6,7 @@
 /*   By: hamezoua <amouzwarh+1@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 15:00:32 by username          #+#    #+#             */
-/*   Updated: 2026/07/01 14:46:12 by hamezoua         ###   ########.fr       */
+/*   Updated: 2026/07/05 15:17:59 by hamezoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,24 @@
 
 void	start_simulation(t_simulation *sim)
 {
-	pthread_t	*thread_ids;
 	pthread_t	monitor_id;
 	int			i;
 
 	i = 0;
-	thread_ids = malloc(sizeof(pthread_t) * sim->config->number_of_coders);
-	if (!thread_ids)
-		return ;
 	while (i < sim->config->number_of_coders)
 	{
-		pthread_create(&thread_ids[i], NULL, coder_routine, &sim->coders[i]);
+		pthread_create(&sim->coders[i].thread, \
+			NULL, coder_routine, &sim->coders[i]);
 		i++;
 	}
 	pthread_create(&monitor_id, NULL, monitor_routine, sim);
 	i = 0;
 	while (i < sim->config->number_of_coders)
 	{
-		pthread_join(thread_ids[i], NULL);
+		pthread_join(sim->coders[i].thread, NULL);
 		i++;
 	}
 	pthread_join(monitor_id, NULL);
-	free(thread_ids);
 }
 
 void	destroy_mutex(t_simulation *sim)

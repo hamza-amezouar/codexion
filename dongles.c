@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       :::      ::::::::    */
-/*   dongles.c                                         :+:      :+:    :+:    */
-/*                                                   +:+ +:+         +:+      */
-/*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
-/*                                               +#+#+#+#+#+   +#+            */
-/*   Created: 2026/06/29 10:08:42 by username         #+#    #+#              */
-/*   Updated: 2026/07/04 20:27:27 by username        ###   ########.fr        */
+/*                                                        :::      ::::::::   */
+/*   dongles.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hamezoua <amouzwarh+1@gmail.com>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/06/29 10:08:42 by username          #+#    #+#             */
+/*   Updated: 2026/07/05 15:19:49 by hamezoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,10 @@ void	check_cooldown(t_coder *coder)
 {
 	pthread_mutex_lock(&coder->config->print_mutex);
 	if (get_current_time()
-			-coder->left_dongle->last_released_time \
+		-coder->left_dongle->last_released_time \
 	< coder->config->dongle_cooldown
-	|| get_current_time()
-	-coder->right_dongle->last_released_time \
+		|| get_current_time()
+		-coder->right_dongle->last_released_time \
 	< coder->config->dongle_cooldown)
 	{
 		pthread_mutex_unlock(&coder->left_dongle->mutex);
@@ -74,8 +74,8 @@ void	take_dongles(t_coder *coder, t_config *config)
 	heap_insert(coder->left_dongle, coder->id_of_coder, priority);
 	heap_insert(coder->right_dongle, coder->id_of_coder, priority);
 	while ((coder->left_dongle->heap[0].coder_id != coder->id_of_coder
-				|| coder->right_dongle->heap[0].coder_id != coder->id_of_coder)
-	&& is_dead(config) != 1)
+			|| coder->right_dongle->heap[0].coder_id != coder->id_of_coder)
+		&& is_dead(config) != 1)
 	{
 		if (coder->left_dongle->heap[0].coder_id != coder->id_of_coder)
 			wait_for_dongles(coder, 0);

@@ -6,7 +6,7 @@
 /*   By: hamezoua <amouzwarh+1@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/29 15:20:55 by hamezoua          #+#    #+#             */
-/*   Updated: 2026/07/01 14:46:45 by hamezoua         ###   ########.fr       */
+/*   Updated: 2026/07/05 15:17:02 by hamezoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ typedef struct s_coder
 	t_config		*config;
 	t_dongle		*left_dongle;
 	t_dongle		*right_dongle;
+	pthread_t		thread;
 }					t_coder;
 
 /* Main simulation structure containing all elements */
