@@ -6,32 +6,63 @@
 /*   By: hamezoua <amouzwarh+1@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 15:00:32 by username          #+#    #+#             */
-/*   Updated: 2026/07/05 15:17:59 by hamezoua         ###   ########.fr       */
+/*   Updated: 2026/07/06 18:30:13 by hamezoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-void	start_simulation(t_simulation *sim)
+void	coders_join(t_simulation *sim, int counter)
 {
-	pthread_t	monitor_id;
-	int			i;
+	int	i;
 
 	i = 0;
-	while (i < sim->config->number_of_coders)
-	{
-		pthread_create(&sim->coders[i].thread, \
-			NULL, coder_routine, &sim->coders[i]);
-		i++;
-	}
-	pthread_create(&monitor_id, NULL, monitor_routine, sim);
-	i = 0;
-	while (i < sim->config->number_of_coders)
+	while (i < counter)
 	{
 		pthread_join(sim->coders[i].thread, NULL);
 		i++;
 	}
+}
+
+void	create_monitor(t_simulation *sim, int counter)
+{
+	pthread_t	monitor_id;
+
+	if (pthread_create(&monitor_id, NULL, monitor_routine, sim) != 0)
+	{
+		printf("ERROR: failed to create monitor thread\n");
+		pthread_mutex_lock(&sim->config->mutex_dead);
+		sim->config->simulation_dead = 1;
+		pthread_mutex_unlock(&sim->config->mutex_dead);
+		coders_join(sim, counter);
+		return ;
+	}
+	coders_join(sim, counter);
 	pthread_join(monitor_id, NULL);
+}
+
+void	start_simulation(t_simulation *sim)
+{
+	int	counter;
+
+	counter = 0;
+	while (counter < sim->config->number_of_coders)
+	{
+		if (pthread_create(&sim->coders[counter].thread, NULL, coder_routine,
+				&sim->coders[counter]) != 0)
+			break ;
+		counter++;
+	}
+	if (counter < sim->config->number_of_coders)
+	{
+		printf("ERROR: failed to create thread %d\n", counter + 1);
+		pthread_mutex_lock(&sim->config->mutex_dead);
+		sim->config->simulation_dead = 1;
+		pthread_mutex_unlock(&sim->config->mutex_dead);
+		coders_join(sim, counter);
+		return ;
+	}
+	create_monitor(sim, counter);
 }
 
 void	destroy_mutex(t_simulation *sim)
@@ -49,6 +80,7 @@ void	destroy_mutex(t_simulation *sim)
 	}
 	pthread_mutex_destroy(&sim->config->mutex_dead);
 	pthread_mutex_destroy(&sim->config->print_mutex);
+	pthread_mutex_destroy(&sim->config->brodcast_mutex);
 }
 
 int	main(int argc, char **argv)
@@ -62,7 +94,8 @@ int	main(int argc, char **argv)
 	sim = init_simulation(config);
 	if (!config || !sim)
 	{
-		printf("[ERROR]: field to allocation config");
+		printf("[ERROR]: field to allocation this number of coders %d",
+			config->number_of_coders);
 		return (1);
 	}
 	sim->config->start_time = get_current_time();

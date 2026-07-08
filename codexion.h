@@ -6,7 +6,7 @@
 /*   By: hamezoua <amouzwarh+1@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/29 15:20:55 by hamezoua          #+#    #+#             */
-/*   Updated: 2026/07/05 15:17:02 by hamezoua         ###   ########.fr       */
+/*   Updated: 2026/07/08 18:07:55 by hamezoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,19 @@ typedef struct s_config
 	int				time_to_refactor;
 	int				number_of_compiles_required;
 	int				dongle_cooldown;
+	int				is_cond;
 	int				scheduler;
 	long			start_time;
 	pthread_mutex_t	mutex_dead;
 	pthread_mutex_t	print_mutex;
+	pthread_mutex_t	brodcast_mutex;
 }					t_config;
 
 /* Shared resource (Dongle) status and priority queue */
 typedef struct s_dongle
 {
 	int				id_of_dongle;
+	int				waiting_threads;
 	pthread_mutex_t	mutex;
 	pthread_cond_t	cond;
 	long			last_released_time;
@@ -100,7 +103,7 @@ void			heap_extract_min(t_dongle *dongle);
 int				is_dead(t_config *config);
 void			*coder_routine(void *arg);
 void			drop_dongles(t_coder *coder);
-void			take_dongles(t_coder *coder, t_config *config);
+void			take_dongles(t_coder *coder);
 void			*monitor_routine(void *arg);
 
 #endif

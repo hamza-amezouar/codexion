@@ -6,7 +6,7 @@
 /*   By: hamezoua <amouzwarh+1@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/22 14:17:13 by username          #+#    #+#             */
-/*   Updated: 2026/07/04 16:31:38 by hamezoua         ###   ########.fr       */
+/*   Updated: 2026/07/08 18:07:07 by hamezoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	prepare_compilation(t_coder *coder)
 {
-	take_dongles(coder, coder->config);
+	take_dongles(coder);
 	pthread_mutex_lock(&coder->mutex_time);
 	coder->last_compile_start = get_current_time();
 	pthread_mutex_unlock(&coder->mutex_time);

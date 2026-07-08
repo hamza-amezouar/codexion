@@ -6,7 +6,7 @@
 /*   By: hamezoua <amouzwarh+1@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/29 10:08:42 by username          #+#    #+#             */
-/*   Updated: 2026/07/05 15:19:49 by hamezoua         ###   ########.fr       */
+/*   Updated: 2026/07/08 18:07:45 by hamezoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ void	wait_for_dongles(t_coder *coder, int x)
 
 void	check_cooldown(t_coder *coder)
 {
-	pthread_mutex_lock(&coder->config->print_mutex);
 	if (get_current_time()
 		-coder->left_dongle->last_released_time \
 	< coder->config->dongle_cooldown
@@ -59,10 +58,9 @@ void	check_cooldown(t_coder *coder)
 		ft_usleep(coder->config->dongle_cooldown, coder);
 		lock_dongles(coder);
 	}
-	pthread_mutex_unlock(&coder->config->print_mutex);
 }
 
-void	take_dongles(t_coder *coder, t_config *config)
+void	take_dongles(t_coder *coder)
 {
 	long	priority;
 
@@ -75,7 +73,7 @@ void	take_dongles(t_coder *coder, t_config *config)
 	heap_insert(coder->right_dongle, coder->id_of_coder, priority);
 	while ((coder->left_dongle->heap[0].coder_id != coder->id_of_coder
 			|| coder->right_dongle->heap[0].coder_id != coder->id_of_coder)
-		&& is_dead(config) != 1)
+		&& is_dead(coder->config) != 1)
 	{
 		if (coder->left_dongle->heap[0].coder_id != coder->id_of_coder)
 			wait_for_dongles(coder, 0);

@@ -6,7 +6,7 @@
 /*   By: hamezoua <amouzwarh+1@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/20 10:20:18 by username          #+#    #+#             */
-/*   Updated: 2026/07/01 14:48:24 by hamezoua         ###   ########.fr       */
+/*   Updated: 2026/07/06 19:03:44 by hamezoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	init_dongles(t_simulation *sim)
 	{
 		sim->dongles[i].id_of_dongle = i + 1;
 		sim->dongles[i].last_released_time = 0;
+		sim->dongles[i].waiting_threads = 0;
 		sim->dongles[i].heap = malloc(sizeof(t_heap_node)
 				* sim->config->number_of_coders);
 		sim->dongles[i].heap_size = 0;
@@ -67,6 +68,7 @@ t_simulation	*init_simulation(t_config *config)
 	sim->config = config;
 	pthread_mutex_init(&sim->config->mutex_dead, NULL);
 	pthread_mutex_init(&sim->config->print_mutex, NULL);
+	pthread_mutex_init(&sim->config->brodcast_mutex, NULL);
 	if (init_dongles(sim) != 0)
 	{
 		free(sim);

@@ -6,7 +6,7 @@
 /*   By: hamezoua <amouzwarh+1@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 14:59:19 by username          #+#    #+#             */
-/*   Updated: 2026/06/27 18:33:28 by hamezoua         ###   ########.fr       */
+/*   Updated: 2026/07/08 18:14:11 by hamezoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,22 +63,20 @@ int	check_args_numbers(int argc, char **argv, int i)
 {
 	if (argc != 9)
 	{
-		printf("[ERROR]: argument count = %d.\n", argc);
-		printf("Please check, argument count must be 8.\n");
+		printf("[ERROR]: Invalid argument count.\n");
+		printf("Expected 8 arguments, but received %d.\n", argc);
 		return (-1);
 	}
 	if ((i == 1 || i == 2 || i == 6) && ft_atoi(argv[i]) <= 0)
 	{
-		printf("[ERROR]: please check ");
-		printf("argument number of % d this value ", i);
-		printf("%s it must be > 0 and < [INT_NAX] \n ", argv[i]);
+		printf("[ERROR]: Invalid argument %d: '%s'.\n", i, argv[i]);
+		printf("The value must be greater than 0 and less than INT_MAX.");
 		return (-1);
 	}
 	else if (ft_atoi(argv[i]) == -1)
 	{
-		printf("[ERROR]: please check this ");
-		printf(" argument number of %d this value %s it ", i, argv[i]);
-		printf("must be >= 0 and <= [INT_NAX] \n ");
+		printf("[ERROR]: Invalid argument %d: '%s'\n", i, argv[i]);
+		printf("The value must be greater or equal to 0 and less than INT_MAX");
 		return (-1);
 	}
 	return (0);
@@ -95,7 +93,8 @@ int	check_args(int argc, char **argv)
 		{
 			if ((strcmp("fifo", argv[i]) != 0) && (strcmp("edf", argv[i]) != 0))
 			{
-				printf("this argument %s must be fifo or edf exactly", argv[i]);
+				printf("[ERROR]: Invalid scheduler: '%s'.\n", argv[i]);
+				printf("The scheduler must be exactly 'fifo' or 'edf'.");
 				return (-1);
 			}
 		}

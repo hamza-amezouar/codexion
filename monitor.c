@@ -6,7 +6,7 @@
 /*   By: hamezoua <amouzwarh+1@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/24 16:15:20 by username          #+#    #+#             */
-/*   Updated: 2026/07/04 15:48:13 by hamezoua         ###   ########.fr       */
+/*   Updated: 2026/07/08 11:44:43 by hamezoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,17 @@ int	handle_burnout(t_simulation *sim, int i)
 	pthread_mutex_lock(&sim->config->mutex_dead);
 	sim->config->simulation_dead = 1;
 	pthread_mutex_unlock(&sim->config->mutex_dead);
+	pthread_mutex_lock(&sim->coders[i].config->print_mutex);
 	printf("%ld %d burned out\n", get_current_time()
 		- sim->coders->config->start_time, sim->coders[i].id_of_coder);
+	pthread_mutex_unlock(&sim->coders[i].config->print_mutex);
 	while (j < sim->config->number_of_coders)
 	{
-		pthread_mutex_unlock(&sim->dongles[j].mutex);
+		pthread_mutex_unlock(&sim->coders[i].mutex_time);
+		pthread_mutex_lock(&sim->dongles[j].mutex);
 		pthread_cond_broadcast(&sim->dongles[j].cond);
+		pthread_mutex_unlock(&sim->dongles[j].mutex);
+		pthread_mutex_lock(&sim->coders[i].mutex_time);
 		j++;
 	}
 	pthread_mutex_unlock(&sim->coders[i].mutex_time);
