@@ -2,8 +2,10 @@ NAME        = codexion
 CC          = cc
 CFLAGS      = -Wall -Wextra -Werror -pthread
 RM          = rm -f
+FOLDER		= coders
 
-F_SRC = codexion.c parser.c  utils.c init.c simulation.c monitor.c heap.c dongles.c
+F_SRC = $(FOLDER)/codexion.c  $(FOLDER)/parser.c   $(FOLDER)/utils.c \
+		 $(FOLDER)/init.c  $(FOLDER)/simulation.c  $(FOLDER)/monitor.c  $(FOLDER)/heap.c  $(FOLDER)/dongles.c
 
 
 OBJS        = $(F_SRC:.c=.o)
@@ -13,7 +15,7 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	@$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 
-%.o: %.c codexion.h
+$(FOLDER)/%.o: $(FOLDER)/%.c $(FOLDER)/codexion.h
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:

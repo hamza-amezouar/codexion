@@ -6,7 +6,7 @@
 /*   By: hamezoua <amouzwarh+1@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/13 14:59:19 by username          #+#    #+#             */
-/*   Updated: 2026/07/08 18:14:11 by hamezoua         ###   ########.fr       */
+/*   Updated: 2026/07/11 13:58:38 by hamezoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,20 +63,22 @@ int	check_args_numbers(int argc, char **argv, int i)
 {
 	if (argc != 9)
 	{
-		printf("[ERROR]: Invalid argument count.\n");
-		printf("Expected 8 arguments, but received %d.\n", argc);
+		fprintf(stderr, "[ERROR]: Invalid argument count.\n");
+		fprintf(stderr, "Expected 8 arguments, but received %d.\n", argc);
 		return (-1);
 	}
 	if ((i == 1 || i == 2 || i == 6) && ft_atoi(argv[i]) <= 0)
 	{
-		printf("[ERROR]: Invalid argument %d: '%s'.\n", i, argv[i]);
-		printf("The value must be greater than 0 and less than INT_MAX.");
+		fprintf(stderr, "[ERROR]: Invalid argument %d: '%s'.\n", i, argv[i]);
+		fprintf(stderr, "The value must be greater");
+		fprintf(stderr, " than 0 and less than INT_MAX.\n");
 		return (-1);
 	}
 	else if (ft_atoi(argv[i]) == -1)
 	{
-		printf("[ERROR]: Invalid argument %d: '%s'\n", i, argv[i]);
-		printf("The value must be greater or equal to 0 and less than INT_MAX");
+		fprintf(stderr, "[ERROR]: Invalid argument %d: '%s'\n", i, argv[i]);
+		fprintf(stderr, "The value must be greater");
+		fprintf(stderr, " or equal to 0 and less than INT_MAX.\n");
 		return (-1);
 	}
 	return (0);
@@ -93,8 +95,9 @@ int	check_args(int argc, char **argv)
 		{
 			if ((strcmp("fifo", argv[i]) != 0) && (strcmp("edf", argv[i]) != 0))
 			{
-				printf("[ERROR]: Invalid scheduler: '%s'.\n", argv[i]);
-				printf("The scheduler must be exactly 'fifo' or 'edf'.");
+				fprintf(stderr, "[ERROR]: Invalid scheduler: '%s'.\n", argv[i]);
+				fprintf(stderr, "The scheduler must");
+				fprintf(stderr, " be exactly 'fifo' or 'edf'.\n");
 				return (-1);
 			}
 		}

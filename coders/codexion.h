@@ -6,7 +6,7 @@
 /*   By: hamezoua <amouzwarh+1@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/29 15:20:55 by hamezoua          #+#    #+#             */
-/*   Updated: 2026/07/08 18:07:55 by hamezoua         ###   ########.fr       */
+/*   Updated: 2026/07/11 13:39:28 by hamezoua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
 # include <pthread.h>
 # include <sys/time.h>
 # include <unistd.h>
-# include <stdbool.h>
 
 /* ************************************************************************** */
 /* Structures                                                                 */
